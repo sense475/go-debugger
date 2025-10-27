@@ -37,10 +37,10 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/myapp:latest
-            ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/myapp:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/myapp:buildcache,mode=max
+            ${{ secrets.DOCKER_USERNAME }}/go-debugger:latest
+            ${{ secrets.DOCKER_USERNAME }}/go-debugger:${{ github.sha::0:7 }}
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/go-debugger:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/go-debugger:buildcache,mode=max
 
       - name: Show disk usage before cleanup
         run: |
