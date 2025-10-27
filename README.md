@@ -1,3 +1,5 @@
+# Go Debugger
+
 ## Project Overview
 
 This Go server is a lightweight test and diagnostic tool built using the Gin web framework.
