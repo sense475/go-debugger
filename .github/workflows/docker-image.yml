@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: CI
+    outputs: 
+      short_sha: ${{ steps.calc_sha.outputs.short_sha }}
+        
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,7 +33,10 @@ jobs:
       #     registry: ghcr.io
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Calculate short SHA
+        id: calc_sha
+        run: echo "short_sha=${{ github.sha::0:7 }}" >> "$GITHUB_OUTPUT"
+        
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -38,7 +44,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/go-debugger:latest
-            ${{ secrets.DOCKER_USERNAME }}/go-debugger:${{ substr(github.sha, 0, 7) }}
+            ${{ secrets.DOCKER_USERNAME }}/go-debugger:${{ needs.build.outputs.short_sha }}"
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/go-debugger:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/go-debugger:buildcache,mode=max
 
