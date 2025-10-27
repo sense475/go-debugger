@@ -38,7 +38,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/go-debugger:latest
-            ${{ secrets.DOCKER_USERNAME }}/go-debugger:${{ github.sha::0:7 }}
+            ${{ secrets.DOCKER_USERNAME }}/go-debugger:${{ format('{0}', github.sha)[0:7] }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/go-debugger:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/go-debugger:buildcache,mode=max
 
