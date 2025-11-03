@@ -95,6 +95,9 @@ func main() {
 
 	r.GET("/redirect", func(c *gin.Context) {
 		viper.AutomaticEnv()
+		query := c.Query("query")
+		log.Printf("Received query: %s", query)
+		log.Printf("Headers: %v", c.Request.Header)
 		log.Println("Fetching REDIRECT_URL from environment")
 		redirecturl := viper.GetString("REDIRECT_URL")
 
