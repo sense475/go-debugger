@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 type TestStruct struct {
@@ -90,6 +91,18 @@ func main() {
 		log.Printf("Received query: %s", query)
 		log.Printf("Headers: %v", c.Request.Header)
 		c.String(200, "got it\n")
+	})
+
+	r.GET("/redirect", func(c *gin.Context) {
+		viper.AutomaticEnv()
+		log.Println("Fetching REDIRECT_URL from environment")
+		redirecturl := viper.GetString("REDIRECT_URL")
+
+		if redirecturl == "" {
+			redirecturl = "https://www.google.com"
+		}
+		log.Printf("Redirecting to %s", redirecturl)
+		c.Redirect(http.StatusFound, redirecturl)
 	})
 
 	var st TestStruct

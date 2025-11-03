@@ -1,3 +1,5 @@
+# export REDIRECT_URL=https://www.example.com
+
 build:
 	docker build -t sensezae/go-debugger:1.0.0 . --platform linux/amd64
 
