@@ -144,6 +144,17 @@ func main() {
 		c.String(200, fmt.Sprintf("Response after %s\n", secondsStr))
 	})
 
+	r.GET("/get/delay/:seconds", func(c *gin.Context) {
+		secondsStr := c.Param("seconds")
+		seconds, err := time.ParseDuration(secondsStr + "s")
+		if err != nil {
+			c.JSON(400, gin.H{"error": "invalid seconds parameter"})
+			return
+		}
+		time.Sleep(seconds)
+		c.String(200, fmt.Sprintf("Response after %s seconds\n", secondsStr))
+	})
+
 	// Handle CTRL+C too
 	go func() {
 		quit := make(chan os.Signal, 1)
